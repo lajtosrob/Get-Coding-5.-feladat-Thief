@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Biztonsági Játék</title>
+ <style>
+  #tabla {
+   background: url('Gamebackground.jpg');
+   background-size: cover;
+   border: 1px solid black;
+   height: 350px;
+   width: 650px;
+  }
+  .szereplo {
+   background: url('guest.jpg');
+   background-size: cover;
+   width: 120px;
+   height: 120px;
+   padding: 10px;
+   margin: 10px;
+   float: left;
+   display: none;
+  }
+  .tolvaj {
+   background: url('thief.jpg');
+   background-size: cover;
+  }
+  .rejtett {
+   display: none;
+  }
+  .lathato {
+   display: block;
+  }
+ </style>
+</head>
+<body>
+ <input type="button" value=" Játék indítása" onclick="jatekInditas()";/>
+ <div id="tabla">
+  <div class=" szereplo">1</div>
+  <div class=" szereplo">2</div>
+  <div class=" szereplo">3</div>
+  <div class=" szereplo">4</div>
+  <div class=" szereplo">5</div>
+  <div class=" szereplo">6</div>
+ </div>
+ <script>
+  function jatekInditas() {
+   jatekCiklus();
+  }
+  var ciklusok = 0;
+  var lathatoSzemelyek = false;
+  var jatekPontszam = 0;
+  function jatekCiklus() {
+   lathatoSzemelyek = !lathatoSzemelyek;
+   szereploLetrehozas();
+   ciklusok++;
+   if(ciklusok < 12) {
+    setTimeout(jatekCiklus, lathatoSzemelyek ? 1000 : 3000);
+   }
+   else {
+    alert("Összpontszám " + jatekPontszam);
+   }
+  }
+  function szereploLetrehozas() {
+   var tabla = document.getElementById("tabla");
+   var osztalyBeallito = lathatoSzemelyek ? " szereplo lathato" : " szereplo rejtett";
+   for(var index = 0; index < 6; index ++) {
+   tabla.children[index].className = osztalyBeallito;
+   tabla.children[index].innerHTML = "";
+   tabla.children[index].onclick = function() {
+    jatekPontszam += -2;
+   }
+  }
+   var veletlenSzam = Math.floor(Math.random() * 6) + 1;
+   tabla.children[veletlenSzam-1].innerHTML = "";
+   tabla.children[veletlenSzam-1].onclick = function() {
+    jatekPontszam++;
+   }
+   tabla.children[veletlenSzam-1].className = osztalyBeallito + " tolvaj";
+  }
+ </script>
+</body>
+</html>
